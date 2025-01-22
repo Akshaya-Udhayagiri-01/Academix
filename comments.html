@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | CollabHub</title>
+    <link rel="stylesheet" href="style4.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">Collab<span>Hub</span></div>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#projects">Projects</a></li>
+                    <li><a href="#resources">Resources</a></li>
+                    <li><a href="#mentors">Mentors</a></li>
+                    <li><a href="#" id="logoutBtn" class="btn">Log Out</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Dashboard Welcome Section -->
+    <section id="home" class="hero">
+        <div class="container hero-content">
+            <h1>Welcome to Your Dashboard!</h1>
+            <p>Explore features, comment on projects, and collaborate effectively.</p>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="projects">
+        <div class="container">
+            <h2>Projects</h2>
+            <div class="project-card">
+                <h3>AI-Based Traffic Management System</h3>
+                <p>An innovative solution to manage city traffic using machine learning.</p>
+                <div class="comments-section">
+                    <h4>Comments</h4>
+                    <div id="commentsList" class="comments-list">
+                        <!-- Predefined comments -->
+                        <div class="comment">
+                            <div class="comment-text">This project has great potential for reducing traffic jams!</div>
+                            <div class="reactions">
+                                <button class="reaction-btn like-btn" data-reacted="false">👍 <span class="like-count">5</span></button>
+                                <button class="reaction-btn dislike-btn" data-reacted="false">👎 <span class="dislike-count">1</span></button>
+                            </div>
+                        </div>
+                        <div class="comment">
+                            <div class="comment-text">Could you include a feature for real-time emergency response prioritization?</div>
+                            <div class="reactions">
+                                <button class="reaction-btn like-btn" data-reacted="false">👍 <span class="like-count">3</span></button>
+                                <button class="reaction-btn dislike-btn" data-reacted="false">👎 <span class="dislike-count">0</span></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="comment-box">
+                        <textarea id="commentInput" placeholder="Write a comment..."></textarea>
+                        <button id="addCommentBtn" class="btn">Post</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 CollabHub. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script4.js"></script>
+</body>
+</html>

@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Collaboration Section</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .collaboration-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 15px;
+        }
+
+        .header-section {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px;
+            background: linear-gradient(135deg, #6366f1, #4f46e5);
+            border-radius: 10px;
+            color: white;
+        }
+
+        .header-section h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header-section p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .collab-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .collab-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            margin-bottom: 15px;
+            padding: 10px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card-title {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .card-description {
+            color: #666;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .categories {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .category-tag {
+            background-color: #e2e8f0;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.9em;
+            color: #4a5568;
+        }
+
+        .start-project-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background-color: #4f46e5;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1em;
+        }
+
+        .start-project-btn:hover {
+            background-color: #4338ca;
+            transform: translateY(-2px);
+        }
+
+        .start-project-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            z-index: 1000;
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+            position: relative;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 28px;
+            cursor: pointer;
+            color: #666;
+            transition: color 0.3s ease;
+        }
+
+        .close-modal:hover {
+            color: #333;
+        }
+
+        .modal-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .form-group label {
+            font-weight: 500;
+            color: #333;
+        }
+
+        .modal-form input,
+        .modal-form textarea,
+        .modal-form select {
+            padding: 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 5px;
+            font-size: 1em;
+            transition: border-color 0.3s ease;
+        }
+
+        .modal-form input:focus,
+        .modal-form textarea:focus,
+        .modal-form select:focus {
+            outline: none;
+            border-color: #4f46e5;
+        }
+
+        .modal-form button {
+            padding: 12px;
+            background-color: #4f46e5;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .modal-form button:hover {
+            background-color: #4338ca;
+            transform: translateY(-2px);
+        }
+
+        .modal-form button:active {
+            transform: translateY(0);
+        }
+
+        /* Success Message */
+        .success-message {
+            display: none;
+            background-color: #10b981;
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .collaboration-container {
+                margin: 20px;
+            }
+
+            .header-section h1 {
+                font-size: 2em;
+            }
+
+            .modal-content {
+                width: 95%;
+                margin: 20px;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="collaboration-container">
+        <div class="header-section">
+            <h1>Collaborations</h1>
+            <p>Start your journey of innovation with amazing collaborators</p>
+        </div>
+
+        <div class="cards-container">
+            <div class="collab-card" data-project-type="Team Projects">
+                <div class="card-icon" style="background-color: #e8f0fe;">
+                    👥
+                </div>
+                <h3 class="card-title">Team Projects</h3>
+                <p class="card-description">Connect with peers and form teams for innovative projects</p>
+                <div class="categories">
+                    <span class="category-tag">Software Development</span>
+                    <span class="category-tag">Research</span>
+                    <span class="category-tag">Design</span>
+                </div>
+                <button class="start-project-btn">Start Project</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal" id="projectModal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2 style="margin-bottom: 20px;">Start New Project</h2>
+            <form class="modal-form" id="projectForm">
+                <div class="form-group">
+                    <label for="projectTitle">Project Title</label>
+                    <input type="text" id="projectTitle" required>
+                </div>
+                <div class="form-group">
+                    <label for="projectType">Project Type</label>
+                    <select id="projectType" required>
+                        <option value="">Select Project Type</option>
+                        <option value="team">Team Projects</option>
+                        <option value="startup">Startup Ideas</option>
+                        <option value="global">Global Initiatives</option>
+                        <option value="research">Research Projects</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="name">Your Name</label>
+                    <input type="text" id="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Your Email</label>
+                    <input type="email" id="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="description">Project Description</label>
+                    <textarea id="description" rows="4" required></textarea>
+                </div>
+                <button type="submit">Create Project</button>
+            </form>
+            <div class="success-message" id="successMessage">
+                Project created successfully! We'll contact you soon.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const modal = document.getElementById('projectModal');
+            const startButtons = document.querySelectorAll('.start-project-btn');
+            const closeModal = document.querySelector('.close-modal');
+            const projectForm = document.getElementById('projectForm');
+            const successMessage = document.getElementById('successMessage');
+            const projectTypeSelect = document.getElementById('projectType');
+
+            // Open modal with project type
+            startButtons.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const card = button.closest('.collab-card');
+                    const projectType = card.getAttribute('data-project-type');
+                    
+                    // Set the project type in the select element
+                    const selectOption = Array.from(projectTypeSelect.options)
+                        .find(option => option.text === projectType);
+                    if (selectOption) {
+                        projectTypeSelect.value = selectOption.value;
+                    }
+                    
+                    modal.classList.add('active');
+                });
+            });
+
+            // Close modal functions
+            function closeModalFunction() {
+                modal.classList.remove('active');
+                projectForm.reset();
+                successMessage.style.display = 'none';
+            }
+
+            closeModal.addEventListener('click', closeModalFunction);
+
+            // Close when clicking outside
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeModalFunction();
+                }
+            });
+
+            // Prevent modal close when clicking modal content
+            modal.querySelector('.modal-content').addEventListener('click', (e) => {
+                e.stopPropagation();
+            });
+
+            // Form submission
+            projectForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                // Collect form data
+                const formData = {
+                    title: document.getElementById('projectTitle').value,
+                    type: document.getElementById('projectType').value,
+                    name: document.getElementById('name').value,
+                    email: document.getElementById('email').value,
+                    description: document.getElementById('description').value
+                };
+
+                // Here you would typically send the data to a server
+                console.log('Project Data:', formData);
+
+                // Show success message
+                projectForm.style.display = 'none';
+                successMessage.style.display = 'block';
+
+                // Close modal after delay
+                setTimeout(() => {
+                    closeModalFunction();
+                    projectForm.style.display = 'flex';
+                }, 2000);
+            });
+
+            // Escape key to close modal
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && modal.classList.contains('active')) {
+                    closeModalFunction();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
